@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discoordinátor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#7289DA">
+    <meta name="theme-color" content="#7289DA">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            width: 100%;
+            margin: 60px 0 0 0;
+            background-color: #313338;
+            color: #FFFFFF;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 400;
+        }
+        .content {
+            width: 700px;
+            max-width: 700px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+        .header {
+            position: relative;
+            height: 200px;
+            background-image:  url('noise.png'), url('fluid.svg');
+            background-position: left top, center;
+            background-repeat: repeat, no-repeat;
+            background-size: auto, cover;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(255,255,255,0.5);
+            mix-blend-mode: darken;
+        }
+        .footer {
+            position: relative;
+            height: 20px;
+            background-image:  url('noise.png'), url('fluid.svg');
+            background-position: left bottom, center;
+            background-repeat: repeat, no-repeat;
+            background-size: auto, cover;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(255,255,255,0.5);
+            mix-blend-mode: darken;
+        }
+        .header div {
+            width: 90%;
+        }
+        .header h1 {
+            font-weight: 800;
+            margin: 0;
+        }
+        .header p {
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0 0 40px 0;
+        }
+        img {
+            float: left;
+            border-radius: 64px;
+            margin-right: 40px;
+        }
+        .box {
+            background-color: #1E1F22;
+            padding: 40px 40px;
+        }
+        a {
+            background-color: #6A448D;
+            border: none;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.2s;
+            cursor: pointer;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-weight: 600;
+        }
+        a:hover {
+            background-color: #7b45ad;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <div>
+            <h1>DISCOORDINÁTOR</h1>
+            <p>Adj discord jogokat automatikusan PéKes adatok alapján</p>
+        </div>
+    </div>
+    <div class="box">
+        <img src="../static/logo.png" th:src="@{/logo.png}" alt="logo" height="128" width="128">
+        <p>
+            A kir-dev gonosz rt. jóvoltából most már nem kell kézzel jogokat
+            rendelj rendezvényed vagy köröd discord szerverén a felhasználóknak
+        </p>
+        <a href="#" th:href="@{/start}">VÁGJ BELE</a>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+</body>
+</html>

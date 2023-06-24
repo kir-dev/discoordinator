@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: configMenu(${servers}, ${menu}, ${server.id})}">
+    </div>
+    <div class="content">
+        <h1 th:text="${rule.name}">Szabályok</h1>
+        <p>Szabályokkal beállítható, hogy ki milyen rangot kapjon. PéKes adatok és hozzáférési listák alapján kapják a felhasználók a rangokat. Akkor frissül amikor a botra reagálnak. Minen olyan szabályt aminek megfelelnek figyelembe vesz a rendszer.</p>
+        <div class="content-separator"></div>
+
+        <form th:action="|@{/server/}${server.id}/rules/${rule.id}|" method="post">
+            <p>A mezők 'ÉS' relációban álnak egymással. Csak akkor fog teljesülni a feltétel, ha a szabáyl minden pontja teljesül rá.</p>
+
+            <input type="hidden" name="id" value="0">
+            <label>Szabály neve</label>
+            <input autocomplete="off"
+                   th:value="${rule.name}"
+                   spellcheck="false"
+                   type="text"
+                   name="name"
+                   class="form-element"
+                   maxlength="128" />
+
+            <input type="checkbox" id="enabled" class="checkbox" name="enabled" th:checked="${rule.enabled}">
+            <label for="enabled">A szabály aktív</label><br>
+
+            <label>PéK kör neve</label>
+            <input autocomplete="off"
+                   th:value="${rule.inPekGroup}"
+                   spellcheck="false"
+                   type="text"
+                   name="pekGroup"
+                   class="form-element"
+                   maxlength="250" />
+            <p class="note">Hagyd üresen ha mindegy melyik körben van</p>
+
+            <input type="checkbox"
+                   id="pekGroupActive"
+                   class="checkbox"
+                   name="pekGroupActive"
+                   th:checked="${rule.isActiveInPekGroup}">
+            <label for="pekGroupActive">Aktív ebben a körben</label>
+            <p class="note">Nem lett learchiválva vagy nem öregedett le. A PéKes adatok alapján értelmezve.</p>
+
+            <label>PéK szerep</label>
+            <input autocomplete="off"
+                   th:value="${rule.hasPekRole}"
+                   spellcheck="false"
+                   type="text"
+                   name="pekRole"
+                   class="form-element"
+                   maxlength="128" />
+            <p class="note">
+                Hagyd üresen ha mindegy melyik milyen szerepe van.
+                Ide tartozik például a tag, öregtag, Adminisztrátor, Körvezető.
+            </p>
+
+            <label>A listák egyikének tagja</label>
+            <div th:class="card" th:each="list : ${lists}">
+                <input type="checkbox"
+                       id="inList_"
+                       th:id="|inList_${list.id}|"
+                       class="checkbox white-checkbox"
+                       name="inList_"
+                       th:name="|inList_${list.id}|"
+                       th:checked="${rule.inAnyAcl.contains(list.id)}" />
+                <label for="inList_" th:for="|inList_${list.id}|" th:text="${list.name}">Lista neve 1</label>
+            </div>
+            <p class="note">
+                Ha nincs egy sem kipipálva, akkor nem szűr erre a feltételre.
+                Ha nincs itt semmi, akkor még nem hoztál létre listákat.
+            </p>
+
+            <label>Következmény: Discord rang</label>
+            <select class="form-element" name="role">
+                <option th:each="role : ${roles}"
+                        th:text="${role.name}"
+                        th:value="${role.discordId}"
+                        th:selected="${rule.role?.discordId == role.discordId}"></option>
+            </select>
+
+            <button class="form-button">Módosítás</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

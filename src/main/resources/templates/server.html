@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: configMenu(${servers}, ${menu}, ${server.id})}">
+    </div>
+    <div class="content">
+        <h1 th:text="${server.name}"></h1>
+        <p>A szervered a sikeresen össze lett kapcsolva az oldallal.</p>
+        <div class="content-separator"></div>
+
+        <h2>Adatok frissítése</h2>
+        <p>Ha frissíteni akarod a szervered nevét vagy a rangok listáját, akkor futtasd le a <span>/discoordinator sync</span> parancsot.</p>
+        <div class="content-separator"></div>
+
+        <h2>Meghívó üzenet</h2>
+        <p>
+            Használd a <span>/discoordinator message</span> parancsot hogy a bot kiírja az összelinkeléshez szükséges üzenetet.
+            Erre az üzenetre válaszolva fognak tudni a felhasználóid rangokhoz jutni.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>Miért nem látszanak a rangok?</h2>
+        <p>
+            A bot csak olyan rangot tud adni ami a listában alatta helyezkedik el.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>Beállítások</h2>
+        <form th:action="|@{/server/}${server.id}/change|" method="post">
+            <input type="checkbox" id="renameUsers" class="checkbox" name="renameUsers" th:checked="${server.renameUsers}">
+            <label for="renameUsers">Felhasználók automatikus átnevezése</label>
+            <br>
+            <label>Üzenet</label>
+            <textarea name="reactMessage" class="form-element" th:text="${server.reactMessage}">
+            </textarea>
+            <button class="form-button">Módosít</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

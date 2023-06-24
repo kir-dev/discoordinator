@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: configMenu(${servers}, ${menu}, ${server.id})}">
+    </div>
+    <div class="content">
+        <h1 th:text="${list.name}">Lista</h1>
+
+        <form th:action="|@{/server/}${server.id}/lists/${list.id}|" method="post">
+            <p class="note">Sortöréssel vagy vesszővel elválasztott elemek.</p>
+
+            <label>Lista neve</label>
+            <input autocomplete="off"
+                   spellcheck="false"
+                   type="text"
+                   name="name"
+                   class="form-element"
+                   th:value="${list.name}"
+                   maxlength="128" />
+
+            <label>Email címek</label>
+            <textarea name="emails" class="form-element"
+                      style="height: 120px"
+                      autocomplete="off"
+                      spellcheck="false"
+                      th:text="${#strings.listJoin(list.emails, ', ')}"></textarea>
+
+            <label>Azonosítók</label>
+            <textarea name="internalIds" class="form-element"
+                      style="height: 120px"
+                      autocomplete="off"
+                      spellcheck="false"
+                      th:text="${#strings.listJoin(list.internalIds, ', ')}"></textarea>
+
+            <label>Discord nevek</label>
+            <textarea name="discordNames" class="form-element"
+                      style="height: 120px"
+                      autocomplete="off"
+                      spellcheck="false"
+                      th:text="${#strings.listJoin(list.discordNames, ', ')}"></textarea>
+
+            <button class="form-button">Módosít</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

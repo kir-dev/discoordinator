@@ -1,0 +1,148 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: discoordinator-live
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: discoordinator-live
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: vsphere
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: discoordinator-live
+  namespace: ${NAMESPACE}
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: discoordinator-live
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: discoordinator-live
+  namespace: ${NAMESPACE}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+spec:
+  tls:
+    - hosts:
+        - discoordinator.sch.bme.hu
+      secretName: discoordinator-live-cert
+  rules:
+    - host: discoordinator.sch.bme.hu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: discoordinator-live
+                port:
+                  number: 80
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: discoordinator-live-secrets
+  namespace: ${NAMESPACE}
+data:
+  AuthSCH_ID: ${AUTCHSCH_ID_BASE64}
+  AuthSCH_KEY: >-
+    ${AUTCHSCH_KEY_BASE64}
+  INVITE_URL: ${INVITE_URL_BASE64}
+  BOT_TOKEN: ${BOT_TOKEN_BASE64}
+type: Opaque
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: discoordinator-live
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discoordinator-live
+  template:
+    metadata:
+      labels:
+        app: discoordinator-live
+    spec:
+      volumes:
+        - name: discoordinator-live
+          persistentVolumeClaim:
+            claimName: discoordinator-live
+      containers:
+        - name: discoordinator-live
+          image: harbor.sch.bme.hu/org-golyakorte/discoordinator:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: PORT
+              value: '80'
+            - name: SYSADMINS
+              value: >-
+                ${SYSADMINS}
+            - name: BASE_URL
+              value: https://discoordinator.sch.bme.hu
+            - name: AUTHSCH_ID
+              valueFrom:
+                secretKeyRef:
+                  name: discoordinator-live-secrets
+                  key: AuthSCH_ID
+            - name: AUTHSCH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: discoordinator-live-secrets
+                  key: AuthSCH_KEY
+            - name: INVITE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: discoordinator-live-secrets
+                  key: INVITE_URL
+            - name: BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: discoordinator-live-secrets
+                  key: BOT_TOKEN
+          resources:
+            limits:
+              cpu: 200m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          volumeMounts:
+            - name: discoordinator-live
+              mountPath: /pv
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

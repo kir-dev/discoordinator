@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: configMenu(${servers}, ${menu}, ${server.id})}">
+    </div>
+    <div class="content">
+        <h1>Listák</h1>
+        <p>Hozzáférési listákkal beállítható, hogy ki milyen ranghoz férjen hozzá.</p>
+        <div class="content-separator"></div>
+
+        <table cellspacing="0" th:if="${lists.size() > 0}" class="lists">
+            <tr>
+                <th>Listák</th>
+                <th>Email cím</th>
+                <th>Azonosító</th>
+                <th>Discord név</th>
+                <th></th>
+            </tr>
+            <tr th:each="list : ${lists}">
+                <td th:text="${list.name}"></td>
+                <td th:text="|${list.emails.size()} db|"></td>
+                <td th:text="|${list.internalIds.size()} db|"></td>
+                <td th:text="|${list.discordNames.size()} db|"></td>
+                <td><a class="form-button" th:href="|@{/server/}${server.id}/lists/${list.id}|">Módosít</a></td>
+            </tr>
+        </table>
+        <div th:if="${lists.size() > 0}" class="content-separator"></div>
+
+        <h2>Új lista</h2>
+        <form th:action="|@{/server/}${server.id}/lists|" method="post">
+            <p class="note">Sortöréssel vagy vesszővel elválasztott elemek.</p>
+
+            <input type="hidden" name="id" value="0">
+            <label>Lista neve</label>
+            <input autocomplete="off"
+                   spellcheck="false"
+                   type="text"
+                   name="name"
+                   class="form-element"
+                   maxlength="128" />
+
+            <label>Email címek</label>
+            <textarea name="emails"
+                      class="form-element"
+                      autocomplete="off"
+                      spellcheck="false"
+                      style="height: 120px"></textarea>
+
+            <label>Azonosítók</label>
+            <textarea name="internalIds"
+                      class="form-element"
+                      autocomplete="off"
+                      spellcheck="false"
+                      style="height: 120px"></textarea>
+
+            <label>Discord nevek</label>
+            <textarea name="discordNames"
+                      class="form-element"
+                      autocomplete="off"
+                      spellcheck="false"
+                      style="height: 120px"></textarea>
+
+            <button class="form-button">Létrehozás</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

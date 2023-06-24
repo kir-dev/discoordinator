@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: menu(${servers},${menu})}">
+    </div>
+    <div class="content">
+        <h1>Új szerver létrehozása</h1>
+
+        <h2>1. lépés</h2>
+        <p>Add hozzá a <a th:href="${inviteUrl}" target="_blank">Discoordinátor botot</a> a szerveredhez.</p>
+        <div class="content-separator"></div>
+
+        <h2>2. lépés</h2>
+        <p>Generálj egy azonosítót, amivel össze tudod kapcsolni a szerveredet az oldallal.</p>
+        <a class="form-button" th:href="@{/new-server-steps}">Tovább a genereáláshoz</a>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:fragment="head">
+    <title>Discoordinátor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css}" href="../static/style.css">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#7289DA">
+    <meta name="theme-color" content="#7289DA">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div th:fragment="header">
+    <div class="top-bar">
+        Az APP JELENLEG <b>BETA</b> ÜZEMMÓDBAN FUT. A BETA ÜZEM VÉGÉIG NE HASZNÁLD OLYAN HELYEN AHOL PROBLÉMA HA ELVESZIK ADAT!
+    </div>
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:fragment="menu(servers, menu)">
+        <h3>MENÜ</h3>
+        <a href="/start" th:class="${menu == 'start' ? 'selected' : ''}">Kezd itt!</a>
+        <a href="/profile" th:class="${menu == 'profile' ? 'selected' : ''}">Profil</a>
+        <div class="separator"></div>
+        <h3>SZERVEREK</h3>
+        <a th:each="server : ${servers}" href="#" th:href="|@{/server/}${server.id}|">
+            <img th:src="${server.logo}" class="server-logo" th:alt="${server.name}" height="24" width="24">
+            <ins th:text="${server.name}">Server 1</ins>
+        </a>
+        <a href="/new-server" class="new-server">Új szerver</a>
+    </div>
+    <div class="left-panel" th:fragment="configMenu(servers, menu, serverId)">
+        <h3>MENÜ</h3>
+        <a href="/start" th:class="${menu == 'start' ? 'selected' : ''}">Kezd itt!</a>
+        <a href="/profile" th:class="${menu == 'profile' ? 'selected' : ''}">Profil</a>
+        <div class="separator"></div>
+        <h3>SZERVEREK</h3>
+        <a th:each="server : ${servers}" href="#" th:href="|@{/server/}${server.id}|" th:class="${server.id == serverId ? 'selected' : ''}">
+            <img th:src="${server.logo}" class="server-logo" th:alt="${server.name}" height="24" width="24">
+            <ins th:text="${server.name}">Server 1</ins>
+        </a>
+        <a href="/new-server" class="new-server">Új szerver</a>
+        <div class="separator"></div>
+        <h3>SZERVER BEÁLLÍTÁSOK</h3>
+        <a th:href="|@{/server/}${serverId}|" th:class="${menu == 'server' ? 'selected' : ''}">Szerver</a>
+        <a th:href="|@{/server/}${serverId}/roles|" th:class="${menu == 'roles' ? 'selected' : ''}">Rangok</a>
+        <a th:href="|@{/server/}${serverId}/lists|" th:class="${menu == 'lists' ? 'selected' : ''}">Listák</a>
+        <a th:href="|@{/server/}${serverId}/rules|" th:class="${menu == 'rules' ? 'selected' : ''}">Szabályok</a>
+    </div>
+    <div class="content">
+        <h1>Welcome to the Dashboard!</h1>
+        <p>Your content goes here...</p>
+        <div class="content-separator"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: menu(${servers},${menu})}">
+    </div>
+    <div class="content">
+        <h1>Új szerver létrehozása</h1>
+        <div class="content-separator"></div>
+
+        <h2>3. lépés</h2>
+        <p>
+            Használd a <br>
+            <span th:text="|/discoordinator setup code:${code}|">/discoordinator setup code:xy</span><br>
+            parancsot, az összekapcsoláshoz.
+        </p>
+        <p>
+            Ha nem adtad volna hozzá a botot, akkor itt egy
+            <a th:href="${inviteUrl}" target="_blank">meghívó link</a>
+            még egyszer.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>További lépések</h2>
+        <p>Használd a <span>/discoordinator sync</span> parancsot ha a rangokat megváltoztatod.</p>
+        <p>
+            Használd a <span>/discoordinator message</span> parancsot hogy a bot kiírja az összelinkeléshez szükséges üzenetet.
+            Erre az üzenetre válaszolva fognak tudni a felhasználóid rangokhoz jutni.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>Hol tudom beállítani a szerveremet?</h2>
+        <p>
+            Ha a setup parancsot lefuttattad, és az sikeres volt, akkor kattints <a th:href="@{/start}">ide</a>
+            és válaszd ki a menüből a szerveredet.
+        </p>
+
+    </div>
+</div>
+</body>
+</html>

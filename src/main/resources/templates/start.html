@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: menu(${servers},${menu})}">
+    </div>
+    <div class="content">
+        <h1>Kezd itt!</h1>
+        <p>A Discoordinátor egy discord bot aminek a segítségével Authsch felhasználókat lehet discord rangokhoz csatolni.</p>
+        <div class="content-separator"></div>
+
+        <h2>Hogyan tudom hozzáadni a szerveremhez?</h2>
+        <p>
+            Hozz létre egy szervert <a th:href="@{/new-server}">itt</a>. Ha létrehoztad, hívd meg a botot a szerveredre,
+            majd futtasd le a szinkronizácós parancsot.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>Mit tud beállítani a bot?</h2>
+        <p>
+            A bot be tudja állítani a felhasználók teljes nevét automatikusan, illetve az általad meghatározott
+            szabályok által tud rangokat hozzárendelni emberekhez.
+        </p>
+        <div class="content-separator"></div>
+
+        <h2>Mi alapján lehet szabályokat beállítani?</h2>
+        <p>
+            PéK körtagságok és hozzáférési listák (emailcímek vagy azonosítók felsorolva) segítségével egészen bonyolult
+            szabályok is létrehozhatóak.
+        </p>
+        <p>
+            Például be tudod állítani, hogy aktív (nem leöregedett) kir-dev körös tagság esetén adjon valamilyen rangot.
+            Beállíthatod, hogy azok az SSSL tagok akik szerepelnek egy bizonyos listában kapjanak egy másik fajta rangot.
+        </p>
+
+    </div>
+</div>
+</body>
+</html>

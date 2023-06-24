@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discoordinátor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#7289DA">
+    <meta name="theme-color" content="#7289DA">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #313338;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #FFFFFF;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        .card {
+            background-color: #202225;
+            border-radius: 5px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .profile-img {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .full-name {
+            font-size: 24px;
+            margin: 0;
+        }
+        .username {
+            color: #72767D;
+            margin: 0;
+        }
+        .success-msg {
+            color: #43B581;
+            margin: 0;
+        }
+        .failed-msg {
+            color: #ce4040;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="card" th:if="${error == ''}">
+    <img th:if="${user.avatarUrl != ''}" th:src="${user.avatarUrl}" alt="" class="profile-img">
+    <h1 class="full-name" th:text="${user.fullName}">Full Name</h1>
+    <p class="username" th:text="${user.discordUsername}">@username</p>
+    <p class="success-msg">Hozzárendelés sikeres!</p>
+</div>
+<div class="card" th:if="${error == 'already'}">
+    <h1 class="full-name">SIKERTELEN</h1>
+    <p class="failed-msg">Már van hozzád rendelve discord felhasználó!</p>
+</div>
+<div class="card" th:if="${error == 'null'}">
+    <h1 class="full-name">SIKERTELEN</h1>
+    <p class="failed-msg">Hozzárendelő kód lejárt!</p>
+</div>
+</body>
+</html>
+
+
+
+
+
+
