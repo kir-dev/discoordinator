@@ -251,7 +251,7 @@ class ServerController(
         model.addAttribute("server", server)
 
         serverService.createRule(server, user, ruleData)
-        log.info("User {} at {} created a list {}", user.fullName, serverId, ruleData)
+        log.info("User {} at {} created a rule {}", user.fullName, serverId, ruleData)
 
         return "redirect:/server/${server.id}/rules"
     }

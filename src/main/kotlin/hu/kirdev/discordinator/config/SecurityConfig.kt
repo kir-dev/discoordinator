@@ -56,7 +56,8 @@ class SecurityConfig(
                     antMatcher("/fluid.svg"),
                     antMatcher("/logo.png"),
                     antMatcher("/oauth2/authorization"),
-                    antMatcher("/oauth2/authorization/authsch")
+                    antMatcher("/oauth2/authorization/authsch"),
+                    antMatcher("/api/**"),
             ).permitAll()
 
             it.requestMatchers(
@@ -73,7 +74,9 @@ class SecurityConfig(
             ).hasRole(ROLE_USER)
 
             it.requestMatchers(
-                    antMatcher("/admin/**")
+                    antMatcher("/admin/**"),
+                    antMatcher("/tokens"),
+                    antMatcher("/tokens/**")
             ).hasRole(ROLE_ADMIN)
         }
         http.formLogin { it.disable() }
@@ -83,6 +86,8 @@ class SecurityConfig(
                     .userInfoEndpoint { userInfo -> userInfo.userService { resolveAuthschUser(it) } }
                     .defaultSuccessUrl("/identify-authsch")
         }
+
+        http.csrf { it.ignoringRequestMatchers(antMatcher("/api/**")) }
 
         return http.build()
     }

@@ -37,7 +37,7 @@ class CoreController(
     @ResponseBody
     @GetMapping("/api/version")
     fun version(model: Model, auth: Authentication): String {
-        return "1.0.0"
+        return "1.1.0"
     }
 
     @GetMapping("/start")

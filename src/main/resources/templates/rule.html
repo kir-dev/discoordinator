@@ -16,7 +16,7 @@
         <form th:action="|@{/server/}${server.id}/rules/${rule.id}|" method="post">
             <p>A mezők 'ÉS' relációban álnak egymással. Csak akkor fog teljesülni a feltétel, ha a szabáyl minden pontja teljesül rá.</p>
 
-            <input type="hidden" name="id" value="0">
+            <input type="hidden" name="id" value="0" th:value="${rule.id}">
             <label>Szabály neve</label>
             <input autocomplete="off"
                    th:value="${rule.name}"

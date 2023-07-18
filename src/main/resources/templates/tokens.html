@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: menu(${servers},${menu})}">
+    </div>
+    <div class="content">
+        <h1>Tokenek</h1>
+        <p>Message distribution tokens</p>
+        <div class="content-separator"></div>
+
+        <h2 th:if="${tokens.size() > 0}">Szabályok</h2>
+        <table cellspacing="0" th:if="${tokens.size() > 0}" class="lists">
+            <tr th:each="token : ${tokens}">
+                <td th:text="${token.name}"></td>
+                <td><a class="form-button" th:href="|@{/tokens/}${token.id}|">Módosít</a></td>
+            </tr>
+        </table>
+        <div th:if="${tokens.size() > 0}" class="content-separator"></div>
+
+        <h2>Új token</h2>
+        <form th:action="@{/tokens}" method="post">
+            <input type="hidden" name="id" value="0">
+            <label>Név</label>
+            <input autocomplete="off"
+                   spellcheck="false"
+                   type="text"
+                   name="name"
+                   class="form-element"
+                   maxlength="128" />
+
+            <label>Token</label>
+            <input autocomplete="off"
+                   spellcheck="false"
+                   type="text"
+                   name="token"
+                   class="form-element"
+                   maxlength="250" />
+
+            <button class="form-button">Létrehozás</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

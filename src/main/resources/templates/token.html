@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<div th:replace="~{layout :: header}">
+</div>
+<div class="dashboard">
+    <div class="left-panel" th:replace="~{layout :: menu(${servers},${menu})}">
+    </div>
+    <div class="content">
+        <h1 th:text="${token.name}">Token</h1>
+        <p>Message distribution tokens</p>
+        <div class="content-separator"></div>
+
+        <form th:action="|@{/tokens}/${token.id}|" method="post">
+            <input type="hidden" name="id" value="0" th:value="${token.id}">
+            <label>Név</label>
+            <input autocomplete="off"
+                   th:value="${token.name}"
+                   spellcheck="false"
+                   type="text"
+                   name="name"
+                   class="form-element"
+                   maxlength="128" />
+
+            <label>Token</label>
+            <input autocomplete="off"
+                   th:value="${token.token}"
+                   spellcheck="false"
+                   type="text"
+                   name="token"
+                   class="form-element"
+                   maxlength="250" />
+
+            <button class="form-button">Módosítás</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
